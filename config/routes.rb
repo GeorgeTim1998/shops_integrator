@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Defines the root path route ("/")
-  # root "articles#index"
+  namespace :api do
+    namespace :v1 do
+      resources :cards, only: %i[index show]
+      resources :shops, only: %i[show update index create] # add buy action
+      resources :users, only: %i[show update index create]
+    end
+  end
 end
