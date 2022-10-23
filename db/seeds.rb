@@ -16,14 +16,6 @@ end
 	users.append(User.create(email: Faker::Internet.unique.email))
 end
 
-cards.append(Card.create(user: users[0], shop: shops[0]))		
-cards.append(Card.create(user: users[1], shop: shops[0]))		
-cards.append(Card.create(user: users[2], shop: shops[0]))		
-
-cards.append(Card.create(user: users[3], shop: shops[1]))		
-cards.append(Card.create(user: users[4], shop: shops[1]))		
-cards.append(Card.create(user: users[5], shop: shops[1]))		
-
-cards.append(Card.create(user: users[6], shop: shops[2]))		
-cards.append(Card.create(user: users[7], shop: shops[2]))		
-cards.append(Card.create(user: users[8], shop: shops[2]))
+for i in (0..users.length - 1) do
+	cards.append(Card.create(user: users[i], shop: shops[i/3]))		
+end
