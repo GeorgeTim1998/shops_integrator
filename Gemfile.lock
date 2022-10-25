@@ -85,6 +85,7 @@ GEM
     bootsnap (1.13.0)
       msgpack (~> 1.2)
     builder (3.2.4)
+    byebug (9.1.0)
     capybara (3.37.1)
       addressable
       matrix
@@ -225,6 +226,7 @@ PLATFORMS
 DEPENDENCIES
   active_model_serializers (~> 0.10.0)
   bootsnap
+  byebug (~> 9.0, >= 9.0.5)
   capybara
   debug
   faker!
