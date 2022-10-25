@@ -13,9 +13,9 @@ cards = []
 end
 
 9.times do
-	users.append(User.create(email: Faker::Internet.unique.email))
+  users.append(User.create(email: Faker::Internet.unique.email))
 end
 
 for i in (0..users.length - 1) do
-	cards.append(Card.create(user: users[i], shop: shops[i/3]))		
+  cards.append(Card.create(user: users[i], shop: shops[i / 3]))
 end
