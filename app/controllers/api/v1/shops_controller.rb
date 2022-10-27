@@ -6,6 +6,12 @@ class Api::V1::ShopsController < ApplicationController
     render json: @shops
   end
 
+  def show
+    @shop = Shop.where(id: params[:id])
+
+    render json: @shop
+  end
+
   private
 
   def user_id
