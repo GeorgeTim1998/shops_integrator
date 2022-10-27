@@ -8,6 +8,12 @@ class Api::V1::CardsController < ApplicationController
     render json: @cards
   end
 
+  def show
+    @card = Card.where(id: params[:id])
+
+    render json: @card
+  end
+
   private
 
   def filtering_params(params)
