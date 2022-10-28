@@ -27,6 +27,7 @@ ActiveRecord::Schema[7.0].define(version: 20_221_023_173_843) do
     t.string 'name', null: false
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
+    t.index ['name'], name: 'index_shops_on_name', unique: true
   end
 
   create_table 'users', force: :cascade do |t|

@@ -5,5 +5,6 @@ class CreateShops < ActiveRecord::Migration[7.0]
 
       t.timestamps
     end
+    add_index :shops, :name, unique: true
   end
 end
