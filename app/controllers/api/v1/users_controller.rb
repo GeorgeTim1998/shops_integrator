@@ -1,5 +1,6 @@
 class Api::V1::UsersController < ApplicationController
   before_action :find_user, only: :update
+
   def index
     @users = User.filter_by_shop(shop_id) if params[:shop_id].present?
     @users = User.all if params[:shop_id].blank?
