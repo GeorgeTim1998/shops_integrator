@@ -16,15 +16,20 @@ class Api::V1::UsersController < ApplicationController
 
   def update
     @user.update(user_params)
-    render json: @user
+    if @user.save
+      render json: @user
+    else
+      render json: @user, status: :unprocessable_entity, serializer: ActiveModel::Serializer::ErrorSerializer
+    end
   end
 
   def create
     @user = User.new(user_params)
-    @user.save
-    render json: @user
-    # rescue ActiveRecord::RecordNotUnique => e
-    #   render json: ErrorSerializer.new(e), status: :unprocessable_entity
+    if @user.save
+      render json: @user
+    else
+      render json: @user, status: :unprocessable_entity, serializer: ActiveModel::Serializer::ErrorSerializer
+    end
   end
 
   private

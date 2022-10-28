@@ -10,15 +10,22 @@ class Api::V1::ShopsController < ApplicationController
 
   def update
     @shop.update(shop_params)
-    render json: @shop
+
+    if @shop.save
+      render json: @shop
+    else
+      render json: @shop, status: :unprocessable_entity, serializer: ActiveModel::Serializer::ErrorSerializer
+    end
   end
 
   def create
     @shop = Shop.new(shop_params)
-    @shop.save
-    render json: @shop
-    # rescue ActiveRecord::RecordNotUnique => e
-    #   render json: ErrorSerializer.new(e), status: :unprocessable_entity
+
+    if @shop.save
+      render json: @shop
+    else
+      render json: @shop, status: :unprocessable_entity, serializer: ActiveModel::Serializer::ErrorSerializer
+    end
   end
 
   def show
