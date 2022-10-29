@@ -36,13 +36,15 @@ class Api::V1::ShopsController < ApplicationController
   end
 
   def buy
-    byebug
+    @card.add_bonuses(params[:amount])
+    amount_due = @card.use_bonuses(params[:amount]) if params[:use_bonuses]
+
+    render json: @card, serializer: BuySerializer, success: true, amount_due:
   end
 
   private
 
   def find_card
-    byebug
     @card = User.find(params[:user_id]).cards.where(shop: params[:id]).first
   end
 
