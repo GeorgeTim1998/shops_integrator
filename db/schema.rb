@@ -33,6 +33,7 @@ ActiveRecord::Schema[7.0].define(version: 20_221_023_173_843) do
 
   create_table 'users', force: :cascade do |t|
     t.string 'email', null: false
+    t.boolean 'negative_balance', default: false
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
     t.index ['email'], name: 'index_users_on_email', unique: true
