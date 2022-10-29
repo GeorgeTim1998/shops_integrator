@@ -41,8 +41,7 @@ class Api::V1::ShopsController < ApplicationController
 
     render json: @card, serializer: BuySerializer, success: true, amount_due:
   rescue NoMethodError, ActiveRecord::RecordNotFound
-    render json: error, adapter: :json,
-           status: :unprocessable_entity
+    render json: error, adapter: :json, status: :unprocessable_entity
   end
 
   private
