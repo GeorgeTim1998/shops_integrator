@@ -15,6 +15,7 @@ ActiveRecord::Schema[7.0].define(version: 20_221_023_173_843) do
   enable_extension 'plpgsql'
 
   create_table 'cards', force: :cascade do |t|
+    t.integer 'bonuses', default: 0
     t.bigint 'user_id', null: false
     t.bigint 'shop_id', null: false
     t.datetime 'created_at', null: false
