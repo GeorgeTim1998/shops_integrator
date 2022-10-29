@@ -1,5 +1,5 @@
 class CardSerializer < ActiveModel::Serializer
-  attributes :id
+  attributes :id, :bonuses
   belongs_to :shop do
     {
       links: {
