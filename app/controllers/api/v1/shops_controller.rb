@@ -1,4 +1,5 @@
 class Api::V1::ShopsController < ApplicationController
+  deserializable_resource :shop, only: :create
   before_action :find_shop, only: :update
 
   def index
