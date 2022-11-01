@@ -41,7 +41,7 @@ class Api::V1::ShopsController < ApplicationController
     amount_due = @card.use_bonuses(params[:amount]) if params[:use_bonuses]
 
     render json: @card, serializer: BuySerializer, success: true, amount_due:
-  rescue NoMethodError, ActiveRecord::RecordNotFound
+  rescue NoMethodError, ActiveRecord::RecordNotFound, ActionDispatch::Http::Parameters::ParseError
     render json: error, adapter: :json, status: :unprocessable_entity
   end
 
