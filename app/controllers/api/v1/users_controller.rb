@@ -1,4 +1,5 @@
 class Api::V1::UsersController < ApplicationController
+  deserializable_resource :user, only: :create
   before_action :find_user, only: :update
 
   def index
