@@ -6,14 +6,20 @@ class Api::V1::ShopsController < ApplicationController
     @shops = Shop.filter_by_user(user_id) if params[:user_id].present?
     @shops = Shop.all if params[:user_id].blank?
 
-    render json: @shops
+    render jsonapi: @shops, meta: {}
+  end
+
+  def show
+    @shop = Shop.where(id: params[:id])
+
+    render jsonapi: @shop, meta: {}
   end
 
   def update
     @shop.update(shop_params)
 
     if @shop.save
-      render json: @shop
+      render jsonapi: @shop, meta: {}
     else
       render json: @shop, status: :unprocessable_entity, serializer: ActiveModel::Serializer::ErrorSerializer
     end
@@ -29,11 +35,6 @@ class Api::V1::ShopsController < ApplicationController
     end
   end
 
-  def show
-    @shop = Shop.where(id: params[:id])
-
-    render json: @shop
-  end
 
   def buy
     @card = User.find(params[:user_id]).cards.where(shop: params[:id]).first

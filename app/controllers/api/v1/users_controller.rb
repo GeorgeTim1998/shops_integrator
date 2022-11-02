@@ -6,19 +6,20 @@ class Api::V1::UsersController < ApplicationController
     @users = User.filter_by_shop(shop_id) if params[:shop_id].present?
     @users = User.all if params[:shop_id].blank?
 
-    render json: @users
+    render jsonapi: @users, meta: {}
   end
 
   def show
     @user = User.where(id: params[:id])
 
-    render json: @user
+    render jsonapi: @user, meta: {}
   end
 
   def update
     @user.update(user_params)
+
     if @user.save
-      render json: @user
+      render jsonapi: @user, meta: {}
     else
       render json: @user, status: :unprocessable_entity, serializer: ActiveModel::Serializer::ErrorSerializer
     end
@@ -26,8 +27,9 @@ class Api::V1::UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
+    
     if @user.save
-      render json: @user, status: :created
+      render jsonapi: @user, status: :created, meta: {}
     else
       render json: @user, status: :unprocessable_entity, serializer: ActiveModel::Serializer::ErrorSerializer
     end
