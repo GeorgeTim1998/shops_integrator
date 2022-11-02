@@ -7,14 +7,14 @@ JSONAPI::Rails.configure do |config|
   # }
   #
   # # Set a default serializable class mapping for errors.
-  # config.jsonapi_errors_class = Hash.new { |h, k|
+  # config.jsonapi_errors_class = Hash.new do |h, k|
   #   names = k.to_s.split('::')
   #   klass = names.pop
   #   h[k] = [*names, "Serializable#{klass}"].join('::').safe_constantize
-  # }.tap { |h|
+  # end.tap do |h|
   #   h[:'ActiveModel::Errors'] = JSONAPI::Rails::SerializableActiveModelErrors
   #   h[:Hash] = JSONAPI::Rails::SerializableErrorHash
-  # }
+  # end
   #
   # # Set a default JSON API object.
   config.jsonapi_object = nil
