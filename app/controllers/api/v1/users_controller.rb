@@ -1,5 +1,5 @@
 class Api::V1::UsersController < ApplicationController
-  deserializable_resource :user, only: :create
+  deserializable_resource :user, only: %i[create update]
   before_action :find_user, only: :update
 
   def index
@@ -40,7 +40,7 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:email)
+    params.require(:user).permit(:email, :negative_balance)
   end
 
   def find_user
