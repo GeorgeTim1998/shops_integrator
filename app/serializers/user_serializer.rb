@@ -3,7 +3,7 @@ class UserSerializer < ActiveModel::Serializer
   has_many :shops do
     {
       links: {
-        related: "/api/v1/shops?user_id=#{object.id}"
+        related: "/api/v1/shops?filter[user_id]=#{object.id}"
       }
     }
   end
@@ -11,7 +11,7 @@ class UserSerializer < ActiveModel::Serializer
   has_many :cards do
     {
       links: {
-        related: "/api/v1/cards?user_id=#{object.id}"
+        related: "/api/v1/cards?filter[user_id]=#{object.id}"
       }
     }
   end
