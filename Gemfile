@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.1.2'
-gem 'active_model_serializers', '~> 0.10.0'
+# gem 'active_model_serializers', '~> 0.10.0'
 gem 'bootsnap', require: false
 gem 'byebug', '~> 9.0', '>= 9.0.5'
 gem 'faker', git: 'https://github.com/faker-ruby/faker.git', branch: 'main'
