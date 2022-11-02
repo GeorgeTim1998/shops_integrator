@@ -23,7 +23,7 @@ class Api::V1::ShopsController < ApplicationController
     @shop = Shop.new(shop_params)
 
     if @shop.save
-      render json: @shop
+      render json: @shop, status: :created
     else
       render json: @shop, status: :unprocessable_entity, serializer: ActiveModel::Serializer::ErrorSerializer
     end
