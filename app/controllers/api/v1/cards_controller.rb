@@ -5,13 +5,13 @@ class Api::V1::CardsController < ApplicationController
       @cards = @cards.public_send("filter_by_#{key}", value) if value.present?
     end
 
-    render jsonapi: @cards, meta:{}
+    render jsonapi: @cards, meta: {}
   end
 
   def show
     @card = Card.where(id: params[:id])
 
-    render jsonapi: @card, meta:{}
+    render jsonapi: @card, meta: {}
   end
 
   private

@@ -6,48 +6,48 @@ class ApplicationController < ActionController::API
     end
     data
   end
-end
 
-def buy_error
-  {
-    success: false,
-    errors: {
-      amount: ['is required'],
-      user_id: ['is required']
+  def buy_error
+    {
+      success: false,
+      errors: {
+        amount: ['is required'],
+        user_id: ['is required']
+      }
     }
-  }
-end
+  end
 
-def buy_success(card, amount_due)
-  {
-    success: true,
-    data: {
-      amount_due:,
-      remaining_bonus: card.bonuses
+  def buy_success(card, amount_due)
+    {
+      success: true,
+      data: {
+        amount_due:,
+        remaining_bonus: card.bonuses
+      }
     }
-  }
-end
+  end
 
-private
+  private
 
-def error_body(error)
-  error_body = I18n.t(:errors)[error.type][:body]
-  {
-    code: error_body[:code],
-    status: error_body[:status],
-    title: error_body[:title],
-    detail: error_body[:detail].sub('resource', error.attribute.to_s.capitalize),
-    source: {
-      pointer: "/data/attributes/#{error.attribute}"
+  def error_body(error)
+    error_body = I18n.t(:errors)[error.type][:body]
+    {
+      code: error_body[:code],
+      status: error_body[:status],
+      title: error_body[:title],
+      detail: error_body[:detail].sub('resource', error.attribute.to_s.capitalize),
+      source: {
+        pointer: "/data/attributes/#{error.attribute}"
+      }
     }
-  }
-end
+  end
 
-def error_meta(error)
-  error_meta = I18n.t(:errors)[error.type][:meta]
-  {
-    attribute: error.attribute,
-    message: error_meta[:message],
-    code: error.type
-  }
+  def error_meta(error)
+    error_meta = I18n.t(:errors)[error.type][:meta]
+    {
+      attribute: error.attribute,
+      message: error_meta[:message],
+      code: error.type
+    }
+  end
 end
