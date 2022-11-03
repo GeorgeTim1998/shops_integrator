@@ -30,4 +30,21 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  hello: Hello world
+  errors:
+    blank:
+      body:
+        code: unprocessable_entity
+        status: '422'
+        title: Validation Error
+        detail: Name can't be blank
+      meta:
+        message: can't be blank
+    taken:
+      body:
+        code: unprocessable_entity
+        status: '422'
+        title: Validation Error
+        detail: Name has already been taken
+      meta:
+        message: has already been taken
