@@ -40,9 +40,9 @@ class Api::V1::ShopsController < ApplicationController
     @card.add_bonuses(params[:amount])
     amount_due = @card.use_bonuses(params[:amount]) if params[:use_bonuses]
 
-    render json: @card, serializer: BuySerializer, success: true, amount_due:
+    render json: buy_success(@card, amount_due)
   rescue NoMethodError, ActiveRecord::RecordNotFound, ActionDispatch::Http::Parameters::ParseError
-    render json: error, adapter: :json, status: :unprocessable_entity
+    render json: buy_error, adapter: :json, status: :unprocessable_entity
   end
 
   private
@@ -57,15 +57,5 @@ class Api::V1::ShopsController < ApplicationController
 
   def shop_params
     params.require(:shop).permit(:name)
-  end
-
-  def error
-    {
-      success: false,
-      errors: {
-        amount: ['is required'],
-        user_id: ['is required']
-      }
-    }
   end
 end

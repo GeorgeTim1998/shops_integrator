@@ -8,6 +8,26 @@ class ApplicationController < ActionController::API
   end
 end
 
+def buy_error
+  {
+    success: false,
+    errors: {
+      amount: ['is required'],
+      user_id: ['is required']
+    }
+  }
+end
+
+def buy_success(card, amount_due)
+  {
+    success: true,
+    data: {
+      amount_due:,
+      remaining_bonus: card.bonuses
+    }
+  }
+end
+
 private
 
 def error_body(error)
