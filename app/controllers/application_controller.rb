@@ -7,14 +7,14 @@ class ApplicationController < ActionController::API
     data
   end
 
-  def buy_error
-    {
-      success: false,
-      errors: {
-        amount: ['is required'],
-        user_id: ['is required']
-      }
-    }
+  def validate_params
+    errors = {}
+
+    errors.merge!(amount: ['must be greater than 0']) if params[:amount].negative?
+    errors.merge!(user_id: ['is required']) if params[:user_id].blank?
+    errors.merge!(amount: ['is required']) if params[:amount].blank?
+
+    render json: { success: false }.merge(errors:), status: :unprocessable_entity unless errors.empty?
   end
 
   def buy_success(card, amount_due)

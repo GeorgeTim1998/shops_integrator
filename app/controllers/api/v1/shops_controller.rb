@@ -1,6 +1,9 @@
 class Api::V1::ShopsController < ApplicationController
   deserializable_resource :shop, only: %i[create update]
+
   before_action :find_shop, only: :update
+  before_action :validate_params, only: :buy
+  before_action :find_card, only: :buy
 
   def index
     @shops = Shop.filter_by_user(user_id) if params[:user_id].present?
@@ -36,16 +39,17 @@ class Api::V1::ShopsController < ApplicationController
   end
 
   def buy
-    @card = User.find(params[:user_id]).cards.where(shop: params[:id]).first
     @card.add_bonuses(params[:amount])
     amount_due = @card.amount_due(params[:amount], params[:use_bonuses])
 
     render json: buy_success(@card, amount_due)
-  rescue NoMethodError, ActiveRecord::RecordNotFound, ActionDispatch::Http::Parameters::ParseError
-    render json: buy_error, adapter: :json, status: :unprocessable_entity
   end
 
   private
+
+  def find_card
+    @card = User.find(params[:user_id]).cards.where(shop: params[:id]).first
+  end
 
   def user_id
     params[:user_id].to_i
