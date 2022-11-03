@@ -21,7 +21,7 @@ class Api::V1::UsersController < ApplicationController
     if @user.save
       render jsonapi: @user, meta: {}
     else
-      render json: @user, status: :unprocessable_entity, serializer: ActiveModel::Serializer::ErrorSerializer
+      render json: error_renderer(@user.errors), status: :unprocessable_entity
     end
   end
 
@@ -31,7 +31,8 @@ class Api::V1::UsersController < ApplicationController
     if @user.save
       render jsonapi: @user, status: :created, meta: {}
     else
-      render json: @user, status: :unprocessable_entity, serializer: ActiveModel::Serializer::ErrorSerializer
+
+      render json: error_renderer(@user.errors), status: :unprocessable_entity
     end
   end
 
