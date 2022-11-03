@@ -21,7 +21,7 @@ class Api::V1::ShopsController < ApplicationController
     if @shop.save
       render jsonapi: @shop, meta: {}
     else
-      render json: @shop, status: :unprocessable_entity, serializer: ActiveModel::Serializer::ErrorSerializer
+      render json: error_renderer(@shop.errors), status: :unprocessable_entity
     end
   end
 
@@ -31,10 +31,9 @@ class Api::V1::ShopsController < ApplicationController
     if @shop.save
       render jsonapi: @shop, status: :created, meta: {}
     else
-      render json: @shop, status: :unprocessable_entity, serializer: ActiveModel::Serializer::ErrorSerializer
+      render json: error_renderer(@shop.errors), status: :unprocessable_entity
     end
   end
-
 
   def buy
     @card = User.find(params[:user_id]).cards.where(shop: params[:id]).first
