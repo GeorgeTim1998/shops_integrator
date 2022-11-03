@@ -38,7 +38,7 @@ class Api::V1::ShopsController < ApplicationController
   def buy
     @card = User.find(params[:user_id]).cards.where(shop: params[:id]).first
     @card.add_bonuses(params[:amount])
-    amount_due = @card.use_bonuses(params[:amount]) if params[:use_bonuses]
+    amount_due = @card.amount_due(params[:amount], params[:use_bonuses])
 
     render json: buy_success(@card, amount_due)
   rescue NoMethodError, ActiveRecord::RecordNotFound, ActionDispatch::Http::Parameters::ParseError

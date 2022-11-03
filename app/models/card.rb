@@ -39,6 +39,14 @@ class Card < ApplicationRecord
     amount_due
   end
 
+  def amount_due(amount, use_bonuses)
+    if use_bonuses
+      use_bonuses(amount)
+    else
+      amount
+    end
+  end
+
   private
 
   def sum_cards_bonuses(cards, amount)
