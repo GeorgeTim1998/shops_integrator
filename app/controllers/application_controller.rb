@@ -16,7 +16,7 @@ def error_body(error)
     code: error_body[:code],
     status: error_body[:status],
     title: error_body[:title],
-    detail: error_body[:detail],
+    detail: error_body[:detail].sub('resource', error.attribute.to_s.capitalize),
     source: {
       pointer: "/data/attributes/#{error.attribute}"
     }

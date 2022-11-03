@@ -37,7 +37,7 @@ en:
         code: unprocessable_entity
         status: '422'
         title: Validation Error
-        detail: Name can't be blank
+        detail: resource can't be blank
       meta:
         message: can't be blank
     taken:
@@ -45,6 +45,7 @@ en:
         code: unprocessable_entity
         status: '422'
         title: Validation Error
-        detail: Name has already been taken
+        detail: resource has already been taken
       meta:
         message: has already been taken
+
