@@ -48,7 +48,16 @@ class Api::V1::ShopsController < ApplicationController
   private
 
   def find_card
-    @card = User.find(params[:user_id]).cards.where(shop: params[:id]).first
+    @card = Card.find_by(shop: params[:id].to_i, user: params[:user_id].to_i)
+    create_card if @card.nil?
+  end
+
+  def create_card
+    shop = Shop.find(params[:id].to_i)
+    user = User.find(params[:user_id].to_i)
+    @card = Card.new(shop:, user:)
+    @card.save
+    @card
   end
 
   def user_id

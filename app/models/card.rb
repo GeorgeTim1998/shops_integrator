@@ -5,11 +5,13 @@ class Card < ApplicationRecord
   belongs_to :user
   belongs_to :shop
 
+  validates :user_id, presence: true, uniqueness: { scope: :shop_id }
+
   scope :filter_by_shop_id, ->(shop_id) { joins(:shop).where(shop: { id: shop_id }) }
   scope :filter_by_user_id, ->(user_id) { joins(:user).where(user: { id: user_id }) }
 
   def add_bonuses(amount)
-    self.bonuses += (BONUS_RATE * amount).floor if amount >= BONUS_IF
+    update(bonuses: self.bonuses += (BONUS_RATE * amount).floor) if amount >= BONUS_IF
   end
 
   def use_bonuses(amount)
@@ -17,10 +19,10 @@ class Card < ApplicationRecord
 
     if amount.ceil <= self.bonuses
       amount_due = 0
-      self.bonuses -= amount.ceil
+      update(bonuses: self.bonuses -= amount.ceil)
     else
       amount_due = amount - self.bonuses
-      self.bonuses = 0
+      update(bonuses: 0)
     end
 
     amount_due
@@ -32,8 +34,7 @@ class Card < ApplicationRecord
 
     if amount > cards_bonuses
       cards_bonuses, amount_due = sum_cards_bonuses(cards, amount)
-
-      self.bonuses -= cards_bonuses
+      update(bonuses: self.bonuses - cards_bonuses)
     end
 
     amount_due
@@ -57,10 +58,10 @@ class Card < ApplicationRecord
       if less_then_amount?(cards_bonuses, card, amount)
         cards_bonuses += card.bonuses
         amount_remaining -= card.bonuses
-        card.bonuses = 0
+        card.update(bonuses: 0)
       else
         cards_bonuses += amount_remaining
-        card.bonuses -= amount_remaining
+        card.update(bonuses: card.bonuses - amount_remaining)
       end
     end
 
