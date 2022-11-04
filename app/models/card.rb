@@ -11,17 +11,17 @@ class Card < ApplicationRecord
   scope :filter_by_user_id, ->(user_id) { joins(:user).where(user: { id: user_id }) }
 
   def add_bonuses(amount)
-    update(bonuses: self.bonuses += (BONUS_RATE * amount).floor) if amount >= BONUS_IF
+    update(bonuses: bonuses + (BONUS_RATE * amount).floor) if amount >= BONUS_IF
   end
 
   def use_bonuses(amount)
     return use_bonuses_negative(amount) if user.negative_balance
 
-    if amount.ceil <= self.bonuses
+    if amount.ceil <= bonuses
       amount_due = 0
-      update(bonuses: self.bonuses -= amount.ceil)
+      update(bonuses: bonuses - amount.ceil)
     else
-      amount_due = amount - self.bonuses
+      amount_due = amount - bonuses
       update(bonuses: 0)
     end
 
@@ -34,7 +34,7 @@ class Card < ApplicationRecord
 
     if amount > cards_bonuses
       cards_bonuses, amount_due = sum_cards_bonuses(cards, amount)
-      update(bonuses: self.bonuses - cards_bonuses)
+      update(bonuses: bonuses - cards_bonuses)
     end
 
     amount_due

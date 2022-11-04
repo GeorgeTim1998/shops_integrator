@@ -39,8 +39,8 @@ class Api::V1::ShopsController < ApplicationController
   end
 
   def buy
-    @card.add_bonuses(params[:amount])
     amount_due = @card.amount_due(params[:amount], params[:use_bonuses])
+    @card.add_bonuses(params[:amount])
 
     render json: buy_success(@card, amount_due)
   end
