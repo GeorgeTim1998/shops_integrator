@@ -7,5 +7,7 @@ class CreateCards < ActiveRecord::Migration[7.0]
 
       t.timestamps
     end
+
+    add_index :cards, %i[user_id shop_id], unique: true
   end
 end

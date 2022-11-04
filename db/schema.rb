@@ -21,6 +21,7 @@ ActiveRecord::Schema[7.0].define(version: 20_221_023_173_843) do
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
     t.index ['shop_id'], name: 'index_cards_on_shop_id'
+    t.index %w[user_id shop_id], name: 'index_cards_on_user_id_and_shop_id', unique: true
     t.index ['user_id'], name: 'index_cards_on_user_id'
   end
 
