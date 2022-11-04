@@ -4,7 +4,7 @@ class SerializableUser < JSONAPI::Serializable::Resource
 
   has_many :shops do
     link :related do
-      "/api/v1/cards?filter[user_id]=#{@object.id}"
+      "/api/v1/shops?filter[user_id]=#{@object.id}"
     end
   end
 
