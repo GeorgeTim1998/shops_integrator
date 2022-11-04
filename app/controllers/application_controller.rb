@@ -17,7 +17,7 @@ class ApplicationController < ActionController::API
     if Float(params[:amount], exception: false).nil?
       errors.merge!(amount: ['is required'])
     else
-      errors.merge!(amount: ['must be greater than 0']) unless params[:amount].positive?
+      errors.merge!(amount: ['must be greater than 0']) unless params[:amount].to_f.positive?
     end
 
     render json: { success: false }.merge(errors:), status: :unprocessable_entity unless errors.empty?
