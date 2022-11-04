@@ -10,9 +10,15 @@ class ApplicationController < ActionController::API
   def validate_params
     errors = {}
 
-    errors.merge!(amount: ['must be greater than 0']) unless params[:amount].positive?
-    errors.merge!(user_id: ['is required']) if params[:user_id].blank?
-    errors.merge!(amount: ['is required']) if params[:amount].blank?
+    if Integer(params[:user_id], exception: false).nil? || User.find_by(id: params[:user_id]).nil?
+      errors.merge!(user_id: ['is required'])
+    end
+
+    if Float(params[:amount], exception: false).nil?
+      errors.merge!(amount: ['is required'])
+    else
+      errors.merge!(amount: ['must be greater than 0']) unless params[:amount].positive?
+    end
 
     render json: { success: false }.merge(errors:), status: :unprocessable_entity unless errors.empty?
   end

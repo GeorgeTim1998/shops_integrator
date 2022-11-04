@@ -48,7 +48,7 @@ class Api::V1::ShopsController < ApplicationController
   private
 
   def find_card
-    @card = Card.find_by(shop: params[:id].to_f, user: params[:user_id].to_i)
+    @card = Card.find_by(shop: params[:id].to_i, user: params[:user_id].to_i)
     create_card if @card.nil?
   end
 
