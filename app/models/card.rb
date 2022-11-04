@@ -47,7 +47,7 @@ class Card < ApplicationRecord
       amount
     end
   end
-  
+
   def all_cards_bonuses(cards)
     sum = 0
     cards.each do |card|
@@ -56,7 +56,7 @@ class Card < ApplicationRecord
 
     sum
   end
-  
+
   private
 
   def sum_cards_bonuses(cards, amount)
@@ -76,7 +76,6 @@ class Card < ApplicationRecord
 
     [cards_bonuses, amount - all_cards_bonuses(cards)]
   end
-
 
   def less_then_amount?(cards_bonuses, card, amount)
     cards_bonuses + card.bonuses < amount
