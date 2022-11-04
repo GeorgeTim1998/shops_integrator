@@ -10,7 +10,7 @@ class ApplicationController < ActionController::API
   def validate_params
     errors = {}
 
-    errors.merge!(amount: ['must be greater than 0']) if params[:amount].negative?
+    errors.merge!(amount: ['must be greater than 0']) unless params[:amount].positive?
     errors.merge!(user_id: ['is required']) if params[:user_id].blank?
     errors.merge!(amount: ['is required']) if params[:amount].blank?
 
