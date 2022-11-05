@@ -17,7 +17,7 @@ class Api::V1::CardsController < ApplicationController
   end
 
   def show
-    @card = Card.where(id: params[:id])
+    @card = Card.find(params[:id])
 
     render jsonapi: @card, meta: {}
   end
