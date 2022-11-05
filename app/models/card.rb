@@ -32,7 +32,7 @@ class Card < ApplicationRecord
     cards = user.cards
     cards_bonuses = all_cards_bonuses(cards)
 
-    if amount > cards_bonuses
+    if amount >= cards_bonuses
       cards_bonuses, amount_due = sum_cards_bonuses(cards, amount)
       update(bonuses: bonuses - cards_bonuses)
     end
