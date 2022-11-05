@@ -61,7 +61,7 @@ class Card < ApplicationRecord
 
   def sum_cards_bonuses(cards, amount)
     cards_bonuses = 0
-    amount_remaining = amount
+    amount_remaining = amount.floor
 
     cards.each do |card|
       if less_then_amount?(cards_bonuses, card, amount)
@@ -74,7 +74,7 @@ class Card < ApplicationRecord
       end
     end
 
-    [cards_bonuses, amount - all_cards_bonuses(cards)]
+    [cards_bonuses, amount - cards_bonuses]
   end
 
   def less_then_amount?(cards_bonuses, card, amount)
