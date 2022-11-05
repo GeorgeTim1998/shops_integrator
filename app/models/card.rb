@@ -15,7 +15,7 @@ class Card < ApplicationRecord
   end
 
   def use_bonuses(amount)
-    return use_bonuses_negative(amount) if user.negative_balance
+    return use_bonuses_negative(amount) if user.negative_balance && bonuses.zero?
 
     if amount.ceil <= bonuses
       amount_due = 0
