@@ -1,6 +1,6 @@
 class Card < ApplicationRecord
   BONUS_IF = 100
-  BONUS_RATE = 0.1
+  BONUS_RATE = 0.01
 
   belongs_to :user
   belongs_to :shop
