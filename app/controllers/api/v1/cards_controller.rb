@@ -12,7 +12,8 @@ class Api::V1::CardsController < ApplicationController
     filtering_params_bonuses.each do |_key, hash|
       hash.each do |_key, value|
         if value == 'sum' && @cards.present?
-          render jsonapi: @cards, meta: { stats: { bonuses: { sum: @cards.first.all_cards_bonuses(@cards) } } } and return
+          render jsonapi: @cards,
+                 meta: { stats: { bonuses: { sum: @cards.first.all_cards_bonuses(@cards) } } } and return
         end
       end
     end

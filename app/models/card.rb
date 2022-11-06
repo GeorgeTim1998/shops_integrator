@@ -14,6 +14,10 @@ class Card < ApplicationRecord
     update(bonuses: bonuses + (BONUS_RATE * amount).floor) if amount >= BONUS_IF
   end
 
+  def add_bonuses_after_buy(amount)
+    update(bonuses: BONUS_RATE * (amount.floor - bonuses)) if (amount.floor - bonuses) >= BONUS_IF
+  end
+
   def use_bonuses(amount)
     amount_due = amount
     return use_bonuses_negative(amount) if user.negative_balance && bonuses.zero?
@@ -25,6 +29,7 @@ class Card < ApplicationRecord
       else
         amount_due = amount - bonuses
         update(bonuses: 0)
+        add_bonuses(amount_due)
       end
     end
 
