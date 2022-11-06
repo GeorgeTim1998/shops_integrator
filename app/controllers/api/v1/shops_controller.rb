@@ -3,7 +3,6 @@ class Api::V1::ShopsController < ApplicationController
 
   before_action :find_shop, only: :update
   before_action :validate_params, only: :buy
-  before_action :find_card, only: :buy
 
   def index
     @shops = Shop.all
@@ -43,16 +42,20 @@ class Api::V1::ShopsController < ApplicationController
   end
 
   def buy
-    amount_due = @card.amount_due(params[:amount], params[:use_bonuses])
-    @card.add_bonuses(params[:amount]) unless params[:use_bonuses]
-
-    render json: buy_success(@card, amount_due)
+    Card.transaction do
+      @card = Card.lock.find_by(shop: params[:id].to_i, user: params[:user_id].to_i)
+      create_card if @card.nil?
+      amount_due = @card.amount_due(params[:amount], params[:use_bonuses])
+      @card.add_bonuses(params[:amount]) unless params[:use_bonuses]
+      @card.save
+      render json: buy_success(@card, amount_due)
+    end
   end
 
   private
 
   def find_card
-    @card = Card.find_by(shop: params[:id].to_i, user: params[:user_id].to_i)
+    @card = Card.lock.find_by(shop: params[:id].to_i, user: params[:user_id].to_i)
     create_card if @card.nil?
   end
 

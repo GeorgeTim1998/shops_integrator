@@ -48,8 +48,7 @@ class Card < ApplicationRecord
       else
         amount_due = amount - cards_bonuses
         cards.each do |card|
-          card.update(bonuses: 0) if card != self
-          update(bonuses: bonuses - cards_bonuses) if card == self
+          card.update(bonuses: 0)
         end
         add_bonuses(amount_due)
       end
