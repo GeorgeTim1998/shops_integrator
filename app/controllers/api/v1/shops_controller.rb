@@ -13,7 +13,7 @@ class Api::V1::ShopsController < ApplicationController
   end
 
   def show
-    @shop = Shop.find(id: params[:id])
+    @shop = Shop.find(params[:id])
 
     render jsonapi: @shop, meta: {}
   end
