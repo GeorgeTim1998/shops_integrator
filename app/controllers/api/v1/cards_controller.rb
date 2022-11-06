@@ -25,10 +25,10 @@ class Api::V1::CardsController < ApplicationController
   private
 
   def filtering_params
-    params.slice(:user_id, :shop_id)
+    params.slice(:filter)[:filter]
   end
 
   def filtering_params_bonuses
-    params.slice(:bonuses)
+    params.slice(:stats)[:stats]
   end
 end
