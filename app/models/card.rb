@@ -41,16 +41,18 @@ class Card < ApplicationRecord
     cards = user.cards
     cards_bonuses = all_cards_bonuses(cards)
 
-    if amount.ceil <= cards_bonuses
-      cards_bonuses, amount_due = sum_cards_bonuses(cards, amount)
-      update(bonuses: bonuses - cards_bonuses)
-    else
-      amount_due = amount - cards_bonuses
-      cards.each do |card|
-        card.update(bonuses: 0) if card != self
-        update(bonuses: bonuses - cards_bonuses) if card == self
+    if cards_bonuses >= 0
+      if amount.ceil <= cards_bonuses
+        cards_bonuses, amount_due = sum_cards_bonuses(cards, amount)
+        update(bonuses: bonuses - cards_bonuses)
+      else
+        amount_due = amount - cards_bonuses
+        cards.each do |card|
+          card.update(bonuses: 0) if card != self
+          update(bonuses: bonuses - cards_bonuses) if card == self
+        end
+        add_bonuses(amount_due)
       end
-      add_bonuses(amount_due)
     end
 
     amount_due
@@ -78,15 +80,18 @@ class Card < ApplicationRecord
   def sum_cards_bonuses(cards, amount)
     cards_bonuses = 0
     amount_remaining = amount.ceil
-
-    cards.each do |card|
-      if less_then_amount?(cards_bonuses, card, amount_remaining)
-        cards_bonuses += card.bonuses
-        amount_remaining -= card.bonuses
-        card.update(bonuses: 0)
-      else
-        cards_bonuses += amount_remaining
-        card.update(bonuses: card.bonuses - amount_remaining)
+    if bonuses >= amount_remaining
+      update(bonuses: bonuses - amount_remaining)
+    else
+      cards.each do |card|
+        if less_then_amount?(cards_bonuses, card, amount_remaining)
+          cards_bonuses += card.bonuses
+          amount_remaining -= card.bonuses
+          card.update(bonuses: 0)
+        else
+          cards_bonuses += amount_remaining
+          card.update(bonuses: card.bonuses - amount_remaining)
+        end
       end
     end
 
