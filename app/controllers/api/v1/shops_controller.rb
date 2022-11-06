@@ -6,10 +6,14 @@ class Api::V1::ShopsController < ApplicationController
   before_action :find_card, only: :buy
 
   def index
-    @shops = Shop.filter_by_user(user_id) if params[:user_id].present?
-    @shops = Shop.all if params[:user_id].blank?
+    @shops = Shop.all
+    filtering_params.each do |_key, hash|
+      hash.each do |key, value|
+        @shops = @shops.public_send("filter_by_#{key}", value) if value.present?
+      end
+    end
 
-    render jsonapi: @shops, meta: {}
+    render jsonapi: @shops.to_a, meta: {}
   end
 
   def show
@@ -70,5 +74,9 @@ class Api::V1::ShopsController < ApplicationController
 
   def shop_params
     params.require(:shop).permit(:name)
+  end
+
+  def filtering_params
+    params.slice(:filter)
   end
 end
