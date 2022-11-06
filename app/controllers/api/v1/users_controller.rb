@@ -3,10 +3,14 @@ class Api::V1::UsersController < ApplicationController
   before_action :find_user, only: :update
 
   def index
-    @users = User.filter_by_shop(shop_id) if params[:shop_id].present?
-    @users = User.all if params[:shop_id].blank?
+    @users = User.all
+    filtering_params.each do |_key, hash|
+      hash.each do |key, value|
+        @users = @users.public_send("filter_by_#{key}", value) if value.present?
+      end
+    end
 
-    render jsonapi: @users, meta: {}
+    render jsonapi: @users.to_a, meta: {}
   end
 
   def show
@@ -48,5 +52,9 @@ class Api::V1::UsersController < ApplicationController
 
   def find_user
     @user = User.find(params[:id])
+  end
+
+  def filtering_params
+    params.slice(:filter)
   end
 end
