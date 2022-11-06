@@ -20,7 +20,7 @@ class Card < ApplicationRecord
 
   def use_bonuses(amount)
     amount_due = amount
-    return use_bonuses_negative(amount) if user.negative_balance && bonuses.zero?
+    return use_bonuses_negative(amount) if user.negative_balance && !bonuses.negative?
 
     unless bonuses.negative?
       if amount.ceil <= bonuses
@@ -44,6 +44,12 @@ class Card < ApplicationRecord
     if amount.ceil <= cards_bonuses
       cards_bonuses, amount_due = sum_cards_bonuses(cards, amount)
       update(bonuses: bonuses - cards_bonuses)
+    else
+      amount_due = amount - cards_bonuses
+      cards.each do |card|
+        card.update(bonuses: 0)
+      end
+      add_bonuses(amount_due)
     end
 
     amount_due
